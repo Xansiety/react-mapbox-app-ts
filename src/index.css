@@ -72,6 +72,11 @@ span {
 .result-container {
 } */
 
+.result-container__active{
+  display: block;
+  background-color: #a8a8aa;
+}
+
 .result-header {
   font-size: 1.8rem;
 }

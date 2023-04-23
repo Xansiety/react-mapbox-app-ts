@@ -1,1 +1,2 @@
-export * from './MapBox'
+export * from './DirectionMapBox';
+export * from './MapBox';
