@@ -45,7 +45,7 @@ span {
   background-color: white;
   z-index: 999;
   box-shadow: 0 5px 10px 0 rgb(0, 0, 0, 0.5);
-  width: 20vw; /* 20% del ancho de la pantalla */
+  width: 30vw; /* 20% del ancho de la pantalla */
   border-radius: 5px;
 }
 
@@ -63,5 +63,37 @@ span {
 .search-container input:focus {
   outline: none;
   transform: scaleX(1.2);
+  transition: all 0.3s ease-in-out;
+}
+
+/* .result {
+}
+
+.result-container {
+} */
+
+.result-header {
+  font-size: 1.8rem;
+}
+
+.result-description {
+  font-size: 1.6rem;
+}
+
+.result-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.6rem;
+}
+
+.result-buttons__goto {
+  background-color: #f9423a;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
 }

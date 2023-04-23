@@ -30,7 +30,7 @@ export const PlacesProvider = ({ children }: Props) => {
   }, []);
 
   const searchPlacesByTerm = async (query: string): Promise<Feature[]> => {
-    if (query.trim().length <= 0) return []; //TODO Clear state
+    if (query.length <= 0) return []; //TODO Clear state
     if (!placeState.userLocation) throw new Error('User location is not defined');
     dispatch({ type: 'setLoadingPlaces' });
     const { data } = await searchApi.get<IResponseMapBox>(`/${query}.json`, {
