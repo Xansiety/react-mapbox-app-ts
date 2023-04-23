@@ -37,3 +37,31 @@ h4,
 span {
   color: black;
 }
+
+.search-container {
+  position: fixed;
+  top: 25px;
+  left: 50px;
+  background-color: white;
+  z-index: 999;
+  box-shadow: 0 5px 10px 0 rgb(0, 0, 0, 0.5);
+  width: 20vw; /* 20% del ancho de la pantalla */
+  border-radius: 5px;
+}
+
+.search-container input {
+  padding: 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.search-container input:hover {
+  transform: scaleX(1.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.search-container input:focus {
+  outline: none;
+  transform: scaleX(1.2);
+  transition: all 0.3s ease-in-out;
+}

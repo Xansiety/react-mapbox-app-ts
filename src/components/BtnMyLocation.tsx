@@ -21,11 +21,12 @@ export const BtnMyLocation = () => {
         position: 'fixed',
         top: '20px',
         right: '20px',
-        zIndex: 9999
+        zIndex: 9999,
+        fontSize: '1.8rem'
       }}
       onClick={handleClick}
     >
-      BtnMyLocation
+      Go to my location
     </button>
   );
 };
