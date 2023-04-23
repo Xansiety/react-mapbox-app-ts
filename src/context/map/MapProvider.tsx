@@ -1,5 +1,5 @@
 import { useContext, useEffect, useReducer } from 'react';
-import { Map, Marker, Popup } from 'mapbox-gl';
+import { AnySourceData, LngLatBounds, Map, Marker, Popup } from 'mapbox-gl';
 import { MapContext, MapReducer } from '.';
 import { PlacesContext } from '..';
 import { directionsApi } from '../../api';
@@ -62,7 +62,59 @@ export const MapProvider = ({ children }: Props) => {
     let kms = distance / 1000;
     kms = Math.round(kms * 100) / 100;
     let minutes = duration / 60;
-    console.log('distance', distance, 'duration', duration);
+    console.log('distance', distance, 'duration', duration, 'minutes', minutes, 'kms', kms);
+
+    const { coordinates: coords } = geometry;
+
+    // Define a bounds
+    const bounds = new LngLatBounds(start, start);
+    for (const cord of coords as any) {
+      const newCord: [number, number] = [cord[0], cord[1]];
+      bounds.extend(newCord);
+    }
+    state.map!.fitBounds(bounds, { padding: 150 });
+
+    // define a polyline
+    const sourceData: AnySourceData = {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'LineString',
+              coordinates: coords as any
+            }
+          }
+        ]
+      }
+    };
+
+    // Remove old polyline
+    if (state.map?.getLayer('route-string')) {
+      state.map?.removeLayer('route-string');
+      state.map?.removeSource('route-string');
+    }
+
+    state.map?.addSource('route-string', sourceData);
+
+    // style the polyline
+    state.map?.addLayer({
+      id: 'route-string',
+      type: 'line',
+      source: 'route-string',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round'
+      },
+      paint: {
+        'line-color': '#3887be',
+        'line-width': 5,
+        'line-opacity': 0.75
+      }
+    });
   };
 
   return (
