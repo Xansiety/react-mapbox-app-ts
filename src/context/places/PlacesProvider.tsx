@@ -2,10 +2,13 @@ import { useEffect, useReducer } from 'react';
 import { PlacesContext, PlacesReducer } from '.';
 import { getUserLocation } from '../../helpers';
 import { searchApi } from '../../api';
+import { Feature, IResponseMapBox } from '../../interfaces';
 
 export interface IPlacesState {
   isLoading: boolean;
   userLocation?: [number, number];
+  isLoadingPlaces: boolean;
+  places: Feature[];
 }
 
 interface Props {
@@ -14,7 +17,9 @@ interface Props {
 
 const INITIAL_STATE: IPlacesState = {
   isLoading: true,
-  userLocation: undefined
+  userLocation: undefined,
+  isLoadingPlaces: false,
+  places: []
 };
 
 export const PlacesProvider = ({ children }: Props) => {
@@ -24,18 +29,18 @@ export const PlacesProvider = ({ children }: Props) => {
     getUserLocation().then((lngLat) => dispatch({ type: 'setUserLocations', payload: lngLat }));
   }, []);
 
-  const searchPlacesByTerm = async (query: string) => {
+  const searchPlacesByTerm = async (query: string): Promise<Feature[]> => {
     if (query.trim().length <= 0) return []; //TODO Clear state
     if (!placeState.userLocation) throw new Error('User location is not defined');
-
-    const { data } = await searchApi.get(`/${query}.json`, {
+    dispatch({ type: 'setLoadingPlaces' });
+    const { data } = await searchApi.get<IResponseMapBox>(`/${query}.json`, {
       params: {
         proximity: placeState.userLocation.join(',')
       }
     });
-
-    console.log(data);
-    return data;
+    // console.log(data);
+    dispatch({ type: 'setPlaces', payload: data.features });
+    return data.features;
   };
 
   return (
