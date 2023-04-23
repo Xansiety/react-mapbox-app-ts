@@ -32,3 +32,8 @@ body {
   height: 100vh;
   color: white;
 }
+
+h4,
+span {
+  color: black;
+}
